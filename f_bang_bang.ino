@@ -90,15 +90,3 @@ void bb_pin_ctrl (boolean state)
   digitalWrite(OUTPUT_PIN3, state);
   digitalWrite(OUTPUT_PIN4, state);
 }
-
-void bb_suspend (int suspend)
-{
-  if (suspend)
-  {
-    bb_stop ();
-  }
-  else
-  {
-    bb_start ();
-  }
-}
