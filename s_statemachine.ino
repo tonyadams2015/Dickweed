@@ -1,25 +1,31 @@
 
 static int curr_state = OFF;
 
-void sm_enter_off (void);
 void sm_enter_power_ctrl (void);
 void sm_enter_temp_ctrl (void);
 void sm_enter_menu (void);
 
-void sm_off (int, int);
 void sm_power_ctrl (int, int);
 void sm_temp_ctrl (int, int);
 void sm_menu (int, int);
 
-void (*sm_enter_cb [NUM_STATES])(void) = {sm_enter_off,
+void sm_exit_power_ctrl (int, int);
+void sm_exit_temp_ctrl (int, int);
+
+void (*sm_enter_cb [NUM_STATES])(void) = {NULL,
                                           sm_enter_power_ctrl,
                                           sm_enter_temp_ctrl,
                                           sm_enter_menu};
 
-void (*sm_cb [NUM_STATES])(int, int) =   {sm_off,
+void (*sm_cb [NUM_STATES])(int, int) =   {NULL,
                                           sm_power_ctrl,
                                           sm_temp_ctrl,
                                           sm_menu};
+
+void (*sm_exit_cb [NUM_STATES])(void)  = {NULL,
+                                          sm_exit_power_ctrl,
+                                          sm_exit_temp_ctrl,
+                                          NULL};
                                           
 void sm_init (void)
 {
@@ -38,6 +44,7 @@ int sm_get_curr_state (void)
 
 void sm_next_state (int new_state)
 {
+  sm_exit ();
   curr_state = new_state;
   sm_enter ();
 }
@@ -45,7 +52,10 @@ void sm_next_state (int new_state)
 void sm_enter (void)
 {
   ui_clear ();
-  sm_enter_cb [curr_state] ();
+  if (sm_enter_cb [curr_state] != NULL)
+  {
+    sm_enter_cb [curr_state] ();
+  }
 }
 
 void sm_update (int event, int value)
@@ -57,19 +67,18 @@ void sm_update (int event, int value)
   }
   else if (event == CLICK)
   {
-    // The encoder switch code uses the same timer as bang bang
-    // so restart after a click.
     bb_restart ();
   }
-  
-  sm_cb [curr_state] (event, value);
+
+  if (sm_cb [curr_state] != NULL)
+  {
+    sm_cb [curr_state] (event, value);
+  }
 }
 
 void sm_enter_off (void)
 {
   ui_off_print ();
-  pc_stop ();
-  tc_stop ();
 }
 
 void sm_enter_power_ctrl (void)
@@ -82,10 +91,6 @@ void sm_enter_temp_ctrl (void)
 {
   ui_temp_ctrl_lb_print ();
   tc_start ();
-}
-
-void sm_off (int event, int value)
-{
 }
 
 void sm_power_ctrl (int event, int value)
@@ -126,8 +131,6 @@ void sm_temp_ctrl (int event, int value)
 
 void sm_enter_menu (void)
 {
-  tc_stop ();
-  pc_stop ();
   ui_menu_init ();
 }
 
@@ -145,4 +148,22 @@ void sm_menu (int event, int value)
     sm_next_state (value);
     break;
   }
+}
+
+void sm_exit (void)
+{
+  if (sm_exit_cb [curr_state] != NULL)
+  {
+    sm_exit_cb [curr_state] ();
+  }
+}
+
+void sm_exit_power_ctrl (void)
+{
+  pc_stop ();
+}
+
+void sm_exit_temp_ctrl (void)
+{
+  tc_stop ();
 }
