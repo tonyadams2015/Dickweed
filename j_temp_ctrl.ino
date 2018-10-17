@@ -10,6 +10,7 @@ int tc_curr_temp = 0;
 void tc_init (void)
 {
   tc_sp = 0;
+  tc_curr_temp = 0;
 }
 
 void tc_sp_check (void)

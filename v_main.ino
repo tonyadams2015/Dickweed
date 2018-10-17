@@ -8,7 +8,6 @@ void setup (void)
   //enc_sw_init ();
   bb_init ();
   lcd_init ();
-  pc_init ();
   therm_init ();
   sm_init ();
   timer.setInterval(1000, therm_update);
