@@ -18,9 +18,6 @@ void therm_update ()
   float t;
   sensors.requestTemperatures();
   t = sensors.getTempCByIndex(0);
-  if (abs(t - old_t) > 0.5)
-  {
-    old_t = t;
-    sm_event_send (THERM_UPDATE, t);
-  }
+  old_t = t;
+  sm_event_send (THERM_UPDATE, t);
 }

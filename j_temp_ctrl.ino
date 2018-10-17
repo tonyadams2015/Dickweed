@@ -37,9 +37,12 @@ void tc_set (int delta)
 void tc_set_measured_temp (int t)
 {
   int p;
-  tc_curr_temp = t;
-  p = tc_lookup_power_level ();
-  bb_set (p);
+  if (abs(t - tc_curr_temp) > 0.5)
+  {
+    tc_curr_temp = t;
+    p = tc_lookup_power_level ();
+    bb_set (p);   
+  }
 }
 
 void tc_start (void)
