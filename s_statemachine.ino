@@ -1,6 +1,7 @@
 
 static int curr_state = OFF;
 
+void sm_enter_off (void);
 void sm_enter_power_ctrl (void);
 void sm_enter_temp_ctrl (void);
 void sm_enter_menu (void);
@@ -12,7 +13,7 @@ void sm_menu (int, int);
 void sm_exit_power_ctrl (int, int);
 void sm_exit_temp_ctrl (int, int);
 
-void (*sm_enter_cb [NUM_STATES])(void) = {NULL,
+void (*sm_enter_cb [NUM_STATES])(void) = {sm_enter_off,
                                           sm_enter_power_ctrl,
                                           sm_enter_temp_ctrl,
                                           sm_enter_menu};
