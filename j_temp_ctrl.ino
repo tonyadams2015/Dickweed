@@ -34,6 +34,11 @@ void tc_set (int delta)
   sm_event_send (TEMP_CTRL_UPDATE, tc_sp);
 }
 
+int tc_get (void)
+{
+  return tc_sp;
+}
+
 void tc_set_measured_temp (int t)
 {
   int p;

@@ -85,12 +85,14 @@ void sm_enter_off (void)
 void sm_enter_power_ctrl (void)
 {
   ui_power_ctrl_lb_print ();
+  ui_power_ctrl_sp_print (pc_get ());
   pc_start ();
 }
 
 void sm_enter_temp_ctrl (void)
 {
   ui_temp_ctrl_lb_print ();
+  ui_temp_ctrl_sp_print (tc_get ());
   tc_start ();
 }
 

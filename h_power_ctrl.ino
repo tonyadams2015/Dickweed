@@ -29,6 +29,11 @@ void pc_set (int delta)
   sm_event_send (POWER_CTRL_UPDATE, pc_sp);
 }
 
+int pc_get (void)
+{
+  return pc_sp;
+}
+
 void pc_start (void)
 {
   bb_start ();
