@@ -4,28 +4,33 @@ static int curr_state = OFF;
 void sm_enter_off (void);
 void sm_enter_power_ctrl (void);
 void sm_enter_temp_ctrl (void);
+void sm_enter_therm (void);
 void sm_enter_menu (void);
 
 void sm_power_ctrl (int, int);
 void sm_temp_ctrl (int, int);
+void sm_therm (int,int);
 void sm_menu (int, int);
 
-void sm_exit_power_ctrl (int, int);
-void sm_exit_temp_ctrl (int, int);
+void sm_exit_power_ctrl (void);
+void sm_exit_temp_ctrl (void);
 
 void (*sm_enter_cb [NUM_STATES])(void) = {sm_enter_off,
                                           sm_enter_power_ctrl,
                                           sm_enter_temp_ctrl,
+                                          sm_enter_therm,
                                           sm_enter_menu};
 
 void (*sm_cb [NUM_STATES])(int, int) =   {NULL,
                                           sm_power_ctrl,
                                           sm_temp_ctrl,
+                                          sm_therm,
                                           sm_menu};
 
 void (*sm_exit_cb [NUM_STATES])(void)  = {NULL,
                                           sm_exit_power_ctrl,
                                           sm_exit_temp_ctrl,
+                                          NULL,
                                           NULL};
                                           
 void sm_init (void)
@@ -98,6 +103,11 @@ void sm_enter_temp_ctrl (void)
   tc_start ();
 }
 
+void sm_enter_therm (void)
+{
+  ui_therm_lb_print ();
+}
+
 void sm_power_ctrl (int event, int value)
 {
   switch (event)
@@ -130,6 +140,17 @@ void sm_temp_ctrl (int event, int value)
     break;
   case ENC_UPDATE:
     tc_set (value);
+    break;
+  }
+}
+
+void sm_therm (int event, int value)
+{
+  switch (event)
+  {
+  case THERM_UPDATE:
+    ui_therm_print (value);
+    tc_set_measured_temp (value);
     break;
   }
 }

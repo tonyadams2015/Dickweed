@@ -1,5 +1,5 @@
 
-static int menu [NUM_STATES] = {OFF, POWER_CTRL, TEMP_CTRL, MENU};
+static int menu [NUM_STATES] = {OFF, POWER_CTRL, TEMP_CTRL, THERM, MENU};
 static int menu_index = 0;
 
 void ui_clear ()
@@ -61,6 +61,12 @@ void ui_temp_ctrl_lb_print (void)
   lcd.print ("Set temp:");
 }
 
+void ui_therm_lb_print (void)
+{
+  lcd.setCursor (0,0);
+  lcd.print ("Thermometer:");  
+}
+
 void ui_menu_init (void)
 {
   menu_index = 0;
@@ -99,8 +105,13 @@ void ui_menu_update ()
   case TEMP_CTRL:
     lcd.print ("-> Temp control");
     lcd.setCursor (0,1);
-    lcd.print ("   Menu");
+    lcd.print ("   Thermometer");
     break;
+  case THERM :
+    lcd.print ("-> Thermometer");
+    lcd.setCursor (0,1);
+    lcd.print ("   Menu");
+    break; 
   case MENU:
     lcd.print ("-> Menu");
     lcd.setCursor (0,1);
