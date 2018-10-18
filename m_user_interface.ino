@@ -1,5 +1,6 @@
 
 static int menu [NUM_STATES] = {OFF, POWER_CTRL, TEMP_CTRL, THERM, MENU};
+String menu_names [NUM_STATES] =  {"Off", "Power control", "Temp control", "Thermometer", "Menu"};
 static int menu_index = 0;
 
 void ui_clear ()
@@ -77,47 +78,27 @@ void ui_menu_index_check ()
 {
   if (menu_index >= NUM_STATES)
   {
-    menu_index = 0;
+    menu_index = MENU;
   }
   else if (menu_index < 0)
   {
-    menu_index = NUM_STATES - 1
-    ;
+    menu_index = OFF;
   }
 }
 
 void ui_menu_update ()
 {
+  String line_1 = String ("-> " + menu_names [menu_index]);
+  String line_2;
   lcd.clear ();
   lcd.setCursor (0,0);
-  switch (menu[menu_index])
-  {
-  case OFF:
-    lcd.print ("-> Off");
+  lcd.print (line_1);
+  if (menu_index < NUM_STATES)
+  { 
+    line_2 = String ("   " + menu_names [menu_index + 1]);
     lcd.setCursor (0,1);
-    lcd.print ("   Power control");
-    break;
-  case POWER_CTRL:
-    lcd.print ("-> Power control");
-    lcd.setCursor (0,1);
-    lcd.print ("   Temp control");
-    break;
-  case TEMP_CTRL:
-    lcd.print ("-> Temp control");
-    lcd.setCursor (0,1);
-    lcd.print ("   Thermometer");
-    break;
-  case THERM :
-    lcd.print ("-> Thermometer");
-    lcd.setCursor (0,1);
-    lcd.print ("   Menu");
-    break; 
-  case MENU:
-    lcd.print ("-> Menu");
-    lcd.setCursor (0,1);
-    lcd.print ("   Off");
-    break;
-  }
+    lcd.print (line_2);
+  }    
 }
 
 void ui_menu_scroll (int delta)
