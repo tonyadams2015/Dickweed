@@ -1,4 +1,11 @@
 #include <MsTimer2.h>
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
+#include <ClickEncoder.h>
+#include <TimerOne.h>
+#include <SimpleTimer.h>
 
 enum events {STATE_CHANGE = 1, CLICK, LONG_PRESS, ENC_UPDATE, THERM_UPDATE, POWER_CTRL_UPDATE, TEMP_CTRL_UPDATE, BB_UPDATE, SELECT_NEW_STATE};
 enum states {OFF, POWER_CTRL, TEMP_CTRL, THERM, MENU, NUM_STATES};

@@ -2,8 +2,7 @@
 #define ENC_DT_PIN 2
 #define ENC_SW_PIN 1
 
-#include <ClickEncoder.h>
-#include <TimerOne.h>
+
 
 ClickEncoder *encoder;
 int16_t last, value;

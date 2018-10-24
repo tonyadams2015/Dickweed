@@ -1,4 +1,3 @@
-#include <SimpleTimer.h>
 
 SimpleTimer timer;
 
