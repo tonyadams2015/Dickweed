@@ -10,10 +10,7 @@ void ui_clear ()
 
 void ui_therm_print (int t)
 {
-  lcd.setCursor (0,1);
-  lcd.print ("     ");
-  lcd.setCursor (0,1);
-  lcd.print (round(t));
+  lcd.printField (0, 1, 3, round (t));
   lcd.print (" C");
 }
 
@@ -25,28 +22,19 @@ void ui_off_print (void)
 
 void ui_power_ctrl_sp_print (int power_ctrl_sp)
 {
-  lcd.setCursor (11,0);
-  lcd.print ("     ");
-  lcd.setCursor (11,0);
-  lcd.print (power_ctrl_sp);
+  lcd.printField (11, 0, 5, power_ctrl_sp);
   lcd.print ("%");
 }
 
 void ui_temp_ctrl_sp_print (int temp_ctrl_sp)
 {
-  lcd.setCursor (11,0);
-  lcd.print ("     ");
-  lcd.setCursor (11,0);
-  lcd.print (temp_ctrl_sp);
+  lcd.printField (11, 0, 5, temp_ctrl_sp);
   lcd.print ("C");
 }
 
 void ui_bb_power_print (int p)
 {
-  lcd.setCursor (11,1);
-  lcd.print ("     ");
-  lcd.setCursor (11,1);
-  lcd.print (p);
+  lcd.printField (11, 1, 5, p);
   lcd.print ("%");
 }
 
