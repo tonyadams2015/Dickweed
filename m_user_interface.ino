@@ -1,6 +1,6 @@
 
-static int menu [NUM_STATES] = {OFF, POWER_CTRL, TEMP_CTRL, THERM, MENU};
-String menu_names [NUM_STATES] =  {"Off", "Power control", "Temp control", "Thermometer", "Menu"};
+static int menu [NUM_STATES] = {OFF, POWER_CTRL, TEMP_CTRL, THERM, DELAY_TIMER, MENU};
+String menu_names [NUM_STATES] =  {"Off", "Power control", "Temp control", "Thermometer", "Delayed heat", "Menu"};
 static int menu_index = 0;
 
 void ui_clear ()
@@ -54,6 +54,25 @@ void ui_therm_lb_print (void)
 {
   lcd.setCursor (0,0);
   lcd.print ("Thermometer:");  
+}
+
+void ui_delay_timer_lb_print (void)
+{
+  lcd.setCursor (0,0);
+  lcd.print ("Delay timer:");  
+}
+
+void ui_delay_time_print (long t)
+{
+  long s_total = t / 1000;
+  int h = s_total / 3600;
+  int s_remaining = s_total % 3600;
+  int m = s_remaining / 60;
+  int s = s_remaining % 60;
+
+  char buf[8];
+  sprintf(buf,"%02d:%02d:%02d",h, m, s);
+  lcd.printField (0, 1, 16, buf);
 }
 
 void ui_menu_init (void)

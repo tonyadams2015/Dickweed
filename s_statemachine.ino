@@ -6,39 +6,45 @@ void sm_enter_power_ctrl (void);
 void sm_enter_temp_ctrl (void);
 void sm_enter_therm (void);
 void sm_enter_menu (void);
+void sm_enter_delay_timer (void);
 
-void sm_power_ctrl (int, int);
-void sm_temp_ctrl (int, int);
-void sm_therm (int,int);
-void sm_menu (int, int);
+void sm_power_ctrl (int, long);
+void sm_temp_ctrl (int, long);
+void sm_therm (int,long);
+void sm_menu (int, long);
+void sm_delay_timer (int, long);
 
 void sm_exit_power_ctrl (void);
 void sm_exit_temp_ctrl (void);
+void sm_exit_delay_timer (void);
 
 void (*sm_enter_cb [NUM_STATES])(void) = {sm_enter_off,
                                           sm_enter_power_ctrl,
                                           sm_enter_temp_ctrl,
                                           sm_enter_therm,
-                                          sm_enter_menu};
+                                          sm_enter_menu,
+                                          sm_enter_delay_timer};
 
-void (*sm_cb [NUM_STATES])(int, int) =   {NULL,
+void (*sm_cb [NUM_STATES])(int, long) =   {NULL,
                                           sm_power_ctrl,
                                           sm_temp_ctrl,
                                           sm_therm,
-                                          sm_menu};
+                                          sm_menu,
+                                          sm_delay_timer};
 
 void (*sm_exit_cb [NUM_STATES])(void)  = {NULL,
                                           sm_exit_power_ctrl,
                                           sm_exit_temp_ctrl,
                                           NULL,
-                                          NULL};
+                                          NULL,
+                                          sm_exit_delay_timer};
                                           
 void sm_init (void)
 {
   sm_next_state (TEMP_CTRL);
 }
 
-void sm_event_send (int event, int value)
+void sm_event_send (int event, long value)
 {
   sm_update (event, value);
 }
@@ -64,7 +70,7 @@ void sm_enter (void)
   }
 }
 
-void sm_update (int event, int value)
+void sm_update (int event, long value)
 {
   if (event == LONG_PRESS)
   {
@@ -108,7 +114,7 @@ void sm_enter_therm (void)
   ui_therm_lb_print ();
 }
 
-void sm_power_ctrl (int event, int value)
+void sm_power_ctrl (int event, long value)
 {
   switch (event)
   {
@@ -124,7 +130,7 @@ void sm_power_ctrl (int event, int value)
   }
 }
 
-void sm_temp_ctrl (int event, int value)
+void sm_temp_ctrl (int event, long value)
 {
   switch (event)
   {
@@ -144,7 +150,7 @@ void sm_temp_ctrl (int event, int value)
   }
 }
 
-void sm_therm (int event, int value)
+void sm_therm (int event, long value)
 {
   switch (event)
   {
@@ -155,12 +161,40 @@ void sm_therm (int event, int value)
   }
 }
 
+void sm_enter_delay_timer (void)
+{
+  ui_delay_timer_lb_print ();
+  ui_delay_time_print (0);
+}
+
+void sm_delay_timer (int event, long value)
+{
+  switch (event)
+  {
+  case ENC_UPDATE:
+    dt_set (value);
+    dt_start ();
+    break;
+  case DT_TICK:
+    ui_delay_time_print (value);
+    break;
+  case DT_EXPIRED:
+      sm_next_state (TEMP_CTRL);
+    break;
+  }
+}
+
+void sm_exit_delay_timer (void)
+{
+  dt_stop ();
+}
+
 void sm_enter_menu (void)
 {
   ui_menu_init ();
 }
 
-void sm_menu (int event, int value)
+void sm_menu (int event, long value)
 {
   switch (event)
   {

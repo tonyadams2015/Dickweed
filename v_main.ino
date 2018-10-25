@@ -1,6 +1,4 @@
 
-SimpleTimer timer;
-
 void setup (void)
 {
   enc_init ();
@@ -10,6 +8,8 @@ void setup (void)
   sm_init ();
   timer.setInterval(1000, therm_update);
   timer.setInterval(100, enc_update);
+  
+  
   therm_update ();
 }
 
