@@ -5,9 +5,9 @@
 
 
 ClickEncoder *encoder;
-int16_t last, value;
+static int16_t enc_last, enc_value;
 
-void timerIsr()
+void enc_timerIsr()
 {
   encoder->service();
 }
@@ -16,18 +16,18 @@ void enc_init ()
 {
  encoder = new ClickEncoder(ENC_DT_PIN, ENC_CLK_PIN, ENC_SW_PIN, 2);
  Timer1.initialize(1000);
- Timer1.attachInterrupt(timerIsr); 
- last = -1;
+ Timer1.attachInterrupt(enc_timerIsr); 
+ enc_last = -1;
 }
 
 void enc_update (void)
 {
-  value += encoder->getValue();
+  enc_value += encoder->getValue();
   
-  if (value != last)
+  if (enc_value != enc_last)
   {
-    sm_event_send (ENC_UPDATE, value - last);
-    last = value;
+    sm_event_send (ENC_UPDATE, enc_value - enc_last);
+    enc_last = enc_value;
   }
 
   ClickEncoder::Button b = encoder->getButton();

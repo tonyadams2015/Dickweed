@@ -1,6 +1,6 @@
 
-#define MAX_TEMP 95
-#define MIN_TEMP 0 
+#define TC_MAX_TEMP 95
+#define TC_MIN_TEMP 0 
 
 int tc_lookup_power_level (void);
 
@@ -15,13 +15,13 @@ void tc_init (void)
 
 void tc_sp_check (void)
 {
-  if (tc_sp > MAX_TEMP)
+  if (tc_sp > TC_MAX_TEMP)
   {
-    tc_sp = MAX_TEMP;
+    tc_sp = TC_MAX_TEMP;
   }
-  else if (tc_sp < MIN_TEMP)
+  else if (tc_sp < TC_MIN_TEMP)
   {
-    tc_sp = MIN_TEMP;
+    tc_sp = TC_MIN_TEMP;
   }
 }
 

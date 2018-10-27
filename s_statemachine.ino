@@ -1,5 +1,5 @@
 
-static int curr_state = OFF;
+static int sm_curr_state = OFF;
 
 void sm_enter_off (void);
 void sm_enter_power_ctrl (void);
@@ -51,22 +51,22 @@ void sm_event_send (int event, long value)
 
 int sm_get_curr_state (void)
 {
-  return curr_state;
+  return sm_curr_state;
 }
 
 void sm_next_state (int new_state)
 {
   sm_exit ();
-  curr_state = new_state;
+  sm_curr_state = new_state;
   sm_enter ();
 }
 
 void sm_enter (void)
 {
   ui_clear ();
-  if (sm_enter_cb [curr_state] != NULL)
+  if (sm_enter_cb [sm_curr_state] != NULL)
   {
-    sm_enter_cb [curr_state] ();
+    sm_enter_cb [sm_curr_state] ();
   }
 }
 
@@ -82,9 +82,9 @@ void sm_update (int event, long value)
     bb_restart ();
   }
 
-  if (sm_cb [curr_state] != NULL)
+  if (sm_cb [sm_curr_state] != NULL)
   {
-    sm_cb [curr_state] (event, value);
+    sm_cb [sm_curr_state] (event, value);
   }
 }
 
@@ -212,9 +212,9 @@ void sm_menu (int event, long value)
 
 void sm_exit (void)
 {
-  if (sm_exit_cb [curr_state] != NULL)
+  if (sm_exit_cb [sm_curr_state] != NULL)
   {
-    sm_exit_cb [curr_state] ();
+    sm_exit_cb [sm_curr_state] ();
   }
 }
 

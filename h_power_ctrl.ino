@@ -1,6 +1,6 @@
 
-#define MAX_POWER 100
-#define MIN_POWER 0
+#define PC_MAX_POWER 100
+#define PC_MIN_POWER 0
 
 int pc_sp = 0;
 
@@ -11,13 +11,13 @@ void pc_init (void)
 
 void pc_sp_check (void)
 {
-  if (pc_sp > MAX_POWER)
+  if (pc_sp > PC_MAX_POWER)
   {
-    pc_sp = MAX_POWER;
+    pc_sp = PC_MAX_POWER;
   }
-  else if (pc_sp < MIN_POWER)
+  else if (pc_sp < PC_MIN_POWER)
   {
-    pc_sp = MIN_POWER;
+    pc_sp = PC_MIN_POWER;
   }
 }
 

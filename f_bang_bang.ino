@@ -1,9 +1,9 @@
 
-#define PERIOD 4000
-#define OUTPUT_PIN1 10
-#define OUTPUT_PIN2 11
-#define OUTPUT_PIN3 12
-#define OUTPUT_PIN4 13
+#define BB_PERIOD 4000
+#define BB_OUTPUT_PIN1 10
+#define BB_OUTPUT_PIN2 11
+#define BB_OUTPUT_PIN3 12
+#define BB_OUTPUT_PIN4 13
 
 static int bb_on_time = 0;
 static int bb_off_time = 0;
@@ -14,17 +14,17 @@ void bb_pin_ctrl (boolean state);
 void bb_init (void)
 {
   bb_enable = false;
-  pinMode(OUTPUT_PIN1, OUTPUT);
-  pinMode(OUTPUT_PIN2, OUTPUT);
-  pinMode(OUTPUT_PIN3, OUTPUT);
-  pinMode(OUTPUT_PIN4, OUTPUT);
+  pinMode(BB_OUTPUT_PIN1, OUTPUT);
+  pinMode(BB_OUTPUT_PIN2, OUTPUT);
+  pinMode(BB_OUTPUT_PIN3, OUTPUT);
+  pinMode(BB_OUTPUT_PIN4, OUTPUT);
   bb_pin_ctrl (LOW);
 }
 
 void bb_set (int power)
 {
-  bb_on_time = PERIOD * power / 100;
-  bb_off_time = PERIOD - bb_on_time;
+  bb_on_time = BB_PERIOD * power / 100;
+  bb_off_time = BB_PERIOD - bb_on_time;
   sm_event_send (BB_UPDATE, power);
   if (bb_enable == true)
   {
@@ -35,7 +35,7 @@ void bb_set (int power)
 void bb_turn_on (void)
 {
   MsTimer2::stop();
-  if (bb_on_time == PERIOD)
+  if (bb_on_time == BB_PERIOD)
   {
     bb_pin_ctrl (HIGH);
   }
@@ -50,7 +50,7 @@ void bb_turn_on (void)
 void bb_turn_off (void)
 {
   MsTimer2::stop();
-  if (bb_off_time == PERIOD)
+  if (bb_off_time == BB_PERIOD)
   {
     bb_pin_ctrl (LOW);
   }
@@ -85,8 +85,8 @@ void bb_stop (void)
 
 void bb_pin_ctrl (boolean state)
 {
-  digitalWrite(OUTPUT_PIN1, state);
-  digitalWrite(OUTPUT_PIN2, state);
-  digitalWrite(OUTPUT_PIN3, state);
-  digitalWrite(OUTPUT_PIN4, state);
+  digitalWrite(BB_OUTPUT_PIN1, state);
+  digitalWrite(BB_OUTPUT_PIN2, state);
+  digitalWrite(BB_OUTPUT_PIN3, state);
+  digitalWrite(BB_OUTPUT_PIN4, state);
 }
