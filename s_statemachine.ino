@@ -163,6 +163,9 @@ void sm_therm (int event, long value)
 
 void sm_enter_delay_timer (void)
 {
+  /* Suspending temp control stops the temp setpoint being reset 
+   * after delay timer expires */
+  tc_suspend ();
   ui_delay_timer_lb_print ();
   ui_delay_time_print (0);
 }

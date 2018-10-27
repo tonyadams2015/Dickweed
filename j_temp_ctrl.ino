@@ -6,11 +6,21 @@ int tc_lookup_power_level (void);
 
 int tc_sp = 0;
 int tc_curr_temp = 0;
+bool tc_suspended = false;
 
 void tc_init (void)
 {
-  tc_sp = 0;
+  if (tc_suspended == true)
+  {
+    tc_suspended = false;
+  }
+  else
+  {
+    tc_sp = 0;
+  }
+
   tc_curr_temp = 0;
+  tc_suspended = false;
 }
 
 void tc_sp_check (void)
@@ -82,4 +92,9 @@ int tc_lookup_power_level (void)
   }
 
   return power;
+}
+
+void tc_suspend (void)
+{
+  tc_suspended = true;
 }
