@@ -2,8 +2,6 @@
 #define ENC_DT_PIN 2
 #define ENC_SW_PIN 1
 
-
-
 ClickEncoder *encoder;
 static int16_t enc_last, enc_value;
 
@@ -14,10 +12,11 @@ void enc_timerIsr()
 
 void enc_init ()
 {
- encoder = new ClickEncoder(ENC_DT_PIN, ENC_CLK_PIN, ENC_SW_PIN, 2);
- Timer1.initialize(1000);
- Timer1.attachInterrupt(enc_timerIsr); 
- enc_last = -1;
+  timer.setInterval(100, enc_update);
+  encoder = new ClickEncoder(ENC_DT_PIN, ENC_CLK_PIN, ENC_SW_PIN, 2);
+  Timer1.initialize(1000);
+  Timer1.attachInterrupt(enc_timerIsr); 
+  enc_last = -1;
 }
 
 void enc_update (void)

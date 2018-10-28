@@ -7,6 +7,7 @@ int pc_sp = 0;
 void pc_init (void)
 {
   pc_sp = 0;
+  bb_init ();
 }
 
 void pc_sp_check (void)

@@ -21,6 +21,7 @@ void tc_init (void)
 
   tc_curr_temp = 0;
   tc_suspended = false;
+  bb_init ();
 }
 
 void tc_sp_check (void)

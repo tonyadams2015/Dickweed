@@ -16,6 +16,7 @@ void sm_delay_timer (int, long);
 
 void sm_exit_power_ctrl (void);
 void sm_exit_temp_ctrl (void);
+void sm_exit_therm (void);
 void sm_exit_delay_timer (void);
 
 void (*sm_enter_cb [NUM_STATES])(void) = {sm_enter_off,
@@ -35,18 +36,15 @@ void (*sm_cb [NUM_STATES])(int, long) =   {NULL,
 void (*sm_exit_cb [NUM_STATES])(void)  = {NULL,
                                           sm_exit_power_ctrl,
                                           sm_exit_temp_ctrl,
-                                          NULL,
+                                          sm_exit_therm,
                                           NULL,
                                           sm_exit_delay_timer};
                                           
 void sm_init (void)
 {
-  bb_init ();
   lcd_init ();
-  therm_init ();
   enc_init ();
-  timer.setInterval(1000, therm_update);
-  timer.setInterval(100, enc_update);
+  therm_init ();  
   therm_update ();
   sm_next_state (TEMP_CTRL);
 }
@@ -98,6 +96,7 @@ void sm_update (int event, long value)
 void sm_enter_off (void)
 {
   ui_off_print ();
+  therm_enable (false);
 }
 
 void sm_enter_power_ctrl (void)
@@ -106,6 +105,7 @@ void sm_enter_power_ctrl (void)
   ui_power_ctrl_lb_print ();
   ui_power_ctrl_sp_print (pc_get ());
   pc_start ();
+  therm_enable (true);
 }
 
 void sm_enter_temp_ctrl (void)
@@ -114,11 +114,13 @@ void sm_enter_temp_ctrl (void)
   ui_temp_ctrl_lb_print ();
   ui_temp_ctrl_sp_print (tc_get ());
   tc_start ();
+  therm_enable (true);
 }
 
 void sm_enter_therm (void)
 {
   ui_therm_lb_print ();
+  therm_enable (true);
 }
 
 void sm_power_ctrl (int event, long value)
@@ -231,9 +233,16 @@ void sm_exit (void)
 void sm_exit_power_ctrl (void)
 {
   pc_stop ();
+  therm_enable (false);
 }
 
 void sm_exit_temp_ctrl (void)
 {
   tc_stop ();
+  therm_enable (false);
+}
+
+void sm_exit_therm (void)
+{
+  therm_enable (false);
 }
