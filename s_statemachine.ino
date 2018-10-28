@@ -41,6 +41,13 @@ void (*sm_exit_cb [NUM_STATES])(void)  = {NULL,
                                           
 void sm_init (void)
 {
+  bb_init ();
+  lcd_init ();
+  therm_init ();
+  enc_init ();
+  timer.setInterval(1000, therm_update);
+  timer.setInterval(100, enc_update);
+  therm_update ();
   sm_next_state (TEMP_CTRL);
 }
 
