@@ -35,7 +35,7 @@ void enc_update (void)
     switch (b) 
     {
     case ClickEncoder::DoubleClicked:
-      sm_event_send (LONG_PRESS, 0);
+      sm_event_send (DOUBLE_CLICKED, 0);
       break;    
     case ClickEncoder::Clicked:
       sm_event_send (CLICK, 0);

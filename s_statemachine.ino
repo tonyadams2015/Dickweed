@@ -77,7 +77,7 @@ void sm_enter (void)
 
 void sm_update (int event, long value)
 {
-  if (event == LONG_PRESS)
+  if (event == DOUBLE_CLICKED)
   {
     sm_next_state (MENU);
     return;
