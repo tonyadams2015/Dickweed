@@ -9,3 +9,9 @@ https://github.com/PaulStoffregen/TimerOne
 https://github.com/schinken/SimpleTimer
 
 Download them as zip files and install with the Arduino "sketch/include library" menu option.
+
+TODO:
+1. Add configuration options to customise temp control for different pot sizes and heating methods
+2. Add configuration option for LCD type
+3. Add ability to turn pump on/off
+4. etc
