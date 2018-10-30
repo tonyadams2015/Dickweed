@@ -4,7 +4,7 @@
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
-static float therm_old_t = 0;
+float therm_old_t = 0;
 bool therm_enabled = false;
 int therm_timer_id = -1;
 

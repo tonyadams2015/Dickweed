@@ -2,7 +2,7 @@
 #define DT_UPDATE_TIME 1000
 #define DT_HRS_TO_MS 3600000
 
-// delay timer in ms
+// delay time in ms
 long dt_delay_time = 0;
 int dt_timer_id = -1;
 

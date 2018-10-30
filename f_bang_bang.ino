@@ -5,9 +5,9 @@
 #define BB_OUTPUT_PIN3 12
 #define BB_OUTPUT_PIN4 13
 
-static int bb_on_time = 0;
-static int bb_off_time = 0;
-static boolean bb_enable = false;
+int bb_on_time = 0;
+int bb_off_time = 0;
+boolean bb_enable = false;
 
 void bb_pin_ctrl (boolean state);
 

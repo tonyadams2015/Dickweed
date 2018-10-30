@@ -3,7 +3,7 @@
 #define ENC_SW_PIN 1
 
 ClickEncoder *encoder;
-static int16_t enc_last, enc_value;
+int16_t enc_last, enc_value;
 
 void enc_timerIsr()
 {

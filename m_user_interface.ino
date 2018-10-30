@@ -1,7 +1,7 @@
 
-static int menu [NUM_STATES] = {OFF, POWER_CTRL, TEMP_CTRL, THERM, DELAY_TIMER, MENU};
+int menu [NUM_STATES] = {OFF, POWER_CTRL, TEMP_CTRL, THERM, DELAY_TIMER, MENU};
 String menu_names [NUM_STATES] =  {"Off", "Power control", "Temp control", "Thermometer", "Delayed heat", "Menu"};
-static int menu_index = 0;
+int menu_index = 0;
 
 void ui_clear ()
 {
